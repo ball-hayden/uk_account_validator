@@ -11,7 +11,7 @@ Given(/^I have an account number (\d+)$/) do |acc_number|
 end
 
 Then(/^the modulus is (\S+)$/) do |modulus|
-  expect(@checker.modulus).to eq modulus
+  expect(@checker.modulus_weights.first.modulus).to eq modulus
 end
 
 Then(/^the combination is valid$/) do

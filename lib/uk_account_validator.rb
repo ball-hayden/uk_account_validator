@@ -2,9 +2,11 @@ require 'uk_account_validator/validator.rb'
 require 'uk_account_validator/modulus_weight.rb'
 require 'uk_account_validator/modulus_weights_table.rb'
 
+require 'uk_account_validator/validators/base_validator.rb'
 require 'uk_account_validator/validators/standard_modulus.rb'
 require 'uk_account_validator/validators/modulus10.rb'
 require 'uk_account_validator/validators/modulus11.rb'
+require 'uk_account_validator/validators/double_alternate.rb'
 
 module UkAccountValidator
   def self.modulus_weights_table

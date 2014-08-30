@@ -11,19 +11,21 @@ module UkAccountValidator
       @weights.sort! { |weight| weight.sort_code_start.to_i }
     end
 
-    def find(sort_code)
+    def find(sort_code, found_weights = [], exclude = [])
       sort_code = sort_code.to_i
 
-      weight = @weights.bsearch { |w| w.sort_code_start.to_i <= sort_code }
+      weight = @weights.bsearch do |w|
+        w.sort_code_start.to_i <= sort_code && !exclude.include?(w)
+      end
 
-      fail SortCodeNotFound if weight.nil?
-      fail SortCodeNotFound unless
+      return found_weights if weight.nil?
+      return found_weights unless
         weight.sort_code_start.to_i <= sort_code &&
         sort_code <= weight.sort_code_end.to_i
 
-      weight
-    end
+      found_weights << weight
 
-    class SortCodeNotFound < StandardError; end
+      find(sort_code, found_weights, exclude + [weight])
+    end
   end
 end
