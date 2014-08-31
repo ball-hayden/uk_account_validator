@@ -5,7 +5,7 @@ module UkAccountValidator
       @weights = []
 
       File.readlines(path).each do |line|
-        @weights << ModulusWeight.new(line)
+        @weights << ModulusWeight.from_line(line)
       end
 
       @weights.sort! { |weight| weight.sort_code_start.to_i }

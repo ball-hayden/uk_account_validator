@@ -20,9 +20,17 @@ module UkAccountValidator
     end
 
     def valid?
-      modulus_weights.map do |modulus_weight|
+      exceptions = []
+
+      results = modulus_weights.map do |modulus_weight|
+        exceptions << modulus_weight.exception
         validator(modulus_weight.modulus).new(account_number, sort_code, modulus_weight).valid?
-      end.all?
+      end
+
+      # Exceptions 10 and 11
+      return results.any? if exceptions.include?('10') && exceptions.include?('11')
+
+      results.all?
     end
   end
 end

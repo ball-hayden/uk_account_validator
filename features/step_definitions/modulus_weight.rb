@@ -1,5 +1,5 @@
 Given(/^I have the following weight data:$/) do |weight_data|
-  @weight = UkAccountValidator::ModulusWeight.new(weight_data)
+  @weight = UkAccountValidator::ModulusWeight.from_line(weight_data)
 end
 
 Then(/^the weight's (\S+) is (\S+)$/) do |arg, value|

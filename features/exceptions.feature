@@ -24,3 +24,22 @@ Feature: Exceptions
     | 14   | Exception 5 where the check passes.                                                                              | 938611   | 07806039      |
     | 15   | Exception 5 where the check passes with substitution.                                                            | 938600   | 42368003      |
     | 16   | Exception 5 where both checks produce a remainder of 0 and pass.                                                 | 938063   | 55065200      |
+    | 17   | Exception 7 where passes but would fail the standard check.                                                      | 772798   | 99345694      |
+    | 18   | Exception 8 where the check passes.                                                                              | 086090   | 06774744      |
+    | 19   | Exception 2 & 9 where the first check passes.                                                                    | 309070   | 02355688      |
+    | 20   | Exception 2 & 9 where the first check fails and second check passes with substitution.                           | 309070   | 12345668      |
+    | 21   | Exception 2 & 9 where a!=0 and g!=9 and passes.                                                                  | 309070   | 12345677      |
+    | 22   | Exception 2 & 9 where a!=0 and g=9 and passes.                                                                   | 309070   | 99345694      |
+
+  Scenario Outline: Invalid Codes
+    Given I have a sort code <sortcode>
+    And I have an account number <accountnumber>
+
+    Then the combination is invalid
+
+  Examples:
+    | test | description                                                                 | sortcode | accountnumber |
+    | 23   | Exception 5 where the first checkdigit is correct and the second incorrect. | 938063 | 15764273 |
+    | 24   | Exception 5 where the first checkdigit is incorrect and the second correct. | 938063 | 15764264 |
+    | 25   | Exception 5 where the first checkdigit is incorrect with a remainder of 1.  | 938063 | 15763217 |
+    | 26   | Exception 1 where it fails double alternate check.                          | 118765 | 64371388 |
