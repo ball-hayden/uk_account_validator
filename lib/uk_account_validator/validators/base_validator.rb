@@ -22,6 +22,8 @@ module UkAccountValidator
         @account_number = account_number
         @sort_code = sort_code
         @modulus_weight = modulus_weight
+
+        @sort_code = apply_exception_5_substitutions(sort_code) if @modulus_weight.exception == '5'
       end
 
       def applying_exceptions(test_digits)
@@ -70,6 +72,26 @@ module UkAccountValidator
         check_sum = check_sum.to_i
 
         total % modulus == check_sum
+      end
+
+      def apply_exception_5_substitutions(sort_code)
+        substitutions = UkAccountValidator.read_sort_code_substitution
+
+        if substitutions.keys.include?(sort_code)
+          sort_code = substitutions[sort_code]
+        end
+
+        return sort_code
+      end
+
+      def apply_exception_5(total, test_digits, check_digit)
+        check_sum    = total % modulus
+        expected_sum = test_digits[NUMBER_INDEX[check_digit]].to_i
+
+        return false if check_sum == 1 && check_digit == :g
+        return true  if check_sum == 0 && expected_sum == 0
+
+        return (modulus - check_sum) == expected_sum
       end
 
       # If a = 4, 5, 6, 7 or 8, and g and h are the same

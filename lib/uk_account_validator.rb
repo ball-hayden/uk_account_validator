@@ -32,5 +32,10 @@ module UkAccountValidator
   end
 
   def self.read_sort_code_substitution
+    @substitutions ||= Hash[
+      File.readlines(UkAccountValidator.sort_code_substitution_file).map do |line|
+        line.split(' ')
+      end
+    ]
   end
 end

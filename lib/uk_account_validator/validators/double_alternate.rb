@@ -2,6 +2,10 @@ module UkAccountValidator
   module Validators
     # Perform validation for sort codes with MOD10
     class DoubleAlternate < BaseValidator
+      def modulus
+        10
+      end
+
       def valid?
         test_string = @sort_code + @account_number
 
@@ -9,20 +13,25 @@ module UkAccountValidator
 
         total = applying_exceptions(test_digits) do
           # Apply weights
-          test_digits = NUMBER_INDEX.map do |weight, index|
+          weighted_test_digits = NUMBER_INDEX.map do |weight, index|
             @modulus_weight.send(weight) * test_digits[index]
           end
 
           # Split into individual digits by concating then splitting again.
-          test_digits = test_digits.join.split(//).map(&:to_i)
+          weighted_test_digits = weighted_test_digits.join.split(//).map(&:to_i)
 
           # Now sum
-          test_digits.inject(:+)
+          weighted_test_digits.inject(:+)
         end
 
-        return exception4(total, test_digits) if @modulus_weight.exception == '4'
+        case @modulus_weight.exception
+        when '4'
+          return apply_exception_4(total, test_digits)
+        when '5'
+          return apply_exception_5(total, test_digits, :h)
+        end
 
-        total % 10 == 0
+        total % modulus == 0
       end
     end
   end
