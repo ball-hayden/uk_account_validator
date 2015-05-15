@@ -18,15 +18,17 @@ module UkAccountValidator
         h: 13
       }
 
-      def initialize(account_number, sort_code, modulus_weight)
+      def initialize(account_number, sort_code, modulus_weight, exceptions)
         @account_number = account_number
-        @sort_code = sort_code
+        @sort_code      = sort_code
         @modulus_weight = modulus_weight
+        @exceptions     = exceptions
 
         @sort_code = apply_exception_5_substitutions(sort_code) if @modulus_weight.exception == '5'
       end
 
       def applying_exceptions(test_digits)
+        apply_exception_2_9(test_digits) if @exceptions.include?('2') &&  @exceptions.include?('9')
         apply_exception_3(test_digits)  if @modulus_weight.exception == '3'
         apply_exception_6(test_digits)  if @modulus_weight.exception == '6'
         apply_exception_7(test_digits)  if @modulus_weight.exception == '7'
@@ -60,6 +62,28 @@ module UkAccountValidator
           @modulus_weight.f, @modulus_weight.g, @modulus_weight.h,
           @modulus_weight.exception
         )
+      end
+
+      def apply_exception_2_9(test_digits)
+        return if test_digits[NUMBER_INDEX[:a]] == 0
+
+        if test_digits[NUMBER_INDEX[:g]] != 9
+          @modulus_weight = ModulusWeight.new(
+            @modulus_weight.sort_code_start,
+            @modulus_weight.sort_code_end,
+            @modulus_weight.modulus,
+            0, 0, 1, 2, 5, 3, 6, 4, 8, 7, 10, 9, 3, 1,
+            @modulus_weight.exception
+          )
+        else
+          @modulus_weight = ModulusWeight.new(
+            @modulus_weight.sort_code_start,
+            @modulus_weight.sort_code_end,
+            @modulus_weight.modulus,
+            0, 0, 0, 0, 0, 0, 0, 0, 8, 7, 10, 9, 3, 1,
+            @modulus_weight.exception
+          )
+        end
       end
 
       def apply_exception_3(test_digits)
