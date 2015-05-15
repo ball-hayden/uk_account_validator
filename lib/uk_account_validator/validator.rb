@@ -37,6 +37,7 @@ module UkAccountValidator
 
       return results.any? if exceptions.include?('10') && exceptions.include?('11')
       return results.any? if exceptions.include?('2') && exceptions.include?('9')
+      return results.any? if exceptions.include?('12') && exceptions.include?('13')
 
       results.all?
     end

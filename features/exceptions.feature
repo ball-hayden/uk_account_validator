@@ -30,6 +30,10 @@ Feature: Exceptions
     | 20   | Exception 2 & 9 where the first check fails and second check passes with substitution.                           | 309070   | 12345668      |
     | 21   | Exception 2 & 9 where a!=0 and g!=9 and passes.                                                                  | 309070   | 12345677      |
     | 22   | Exception 2 & 9 where a!=0 and g=9 and passes.                                                                   | 309070   | 99345694      |
+    | 31   | Exception 12/13 where passes modulus 11 check                                                                    | 074456   | 12345112      |
+    | 32   | Exception 12/13 where passes the modulus 11 check                                                                | 070116   | 34012583      |
+    | 33   | Exception 12/13 where fails the modulus 11 check, but passes the modulus 10 check.                               | 074456   | 11104102      |
+    | 34   | Exception 14 where the first check fails and the second check passes.                                            | 180002   | 00000190      |
 
   Scenario Outline: Invalid Codes
     Given I have a sort code <sortcode>
