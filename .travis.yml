@@ -7,5 +7,8 @@ rvm:
   - 2.1.6
   - 2.2.1
 
-before_script: 'bundle install'
-script: 'bundle exec cucumber'
+install:
+  - bundle install --without development
+
+script:
+  - bundle exec cucumber
