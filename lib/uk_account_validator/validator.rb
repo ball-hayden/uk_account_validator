@@ -35,11 +35,26 @@ module UkAccountValidator
         validator(modulus_weight.modulus).new(account_number, sort_code, modulus_weight, exceptions).valid?
       end
 
-      return results.any? if exceptions.include?('10') && exceptions.include?('11')
       return results.any? if exceptions.include?('2') && exceptions.include?('9')
+      return results.any? if exceptions.include?('10') && exceptions.include?('11')
       return results.any? if exceptions.include?('12') && exceptions.include?('13')
+      return apply_exception_14 if !results.any? && exceptions.include?('14')
 
       results.all?
+    end
+
+    # If the 8th digit of the account number (reading from left to right) is
+    # not 0, 1 or 9 then the account number fails the second check and is not a
+    # valid Coutts account number.
+    # If the 8th digit is 0, 1 or 9, then remove the digit from the account
+    # number and insert a 0 as the 1st digit for check purposes only
+    def apply_exception_14
+      return false unless %w(0 1 9).include?(account_number[7])
+
+      account_number.slice!(7)
+      exception_account_number = '0' + account_number
+
+      return Validator.new(exception_account_number, sort_code).valid?
     end
   end
 end
