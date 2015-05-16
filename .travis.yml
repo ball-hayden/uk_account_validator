@@ -1,0 +1,11 @@
+language: ruby
+cache: bundler
+
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.6
+  - 2.2.1
+
+before_script: 'bundle install'
+script: 'bundle exec cucumber'
