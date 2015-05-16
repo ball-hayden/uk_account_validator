@@ -37,8 +37,8 @@ or
 
 ```
 validator = UkAccountValidator::Validator.new
-validator.account_number
-validator.sort_code
+validator.account_number = account_number
+validator.sort_code      = sort_code
 validator.valid?
 ```
 
