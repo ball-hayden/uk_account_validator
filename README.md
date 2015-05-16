@@ -7,6 +7,24 @@ This gem validates uk account numbers against their sort codes in accordance wit
 
 http://www.vocalink.com/media/700427/vocalink_-_validating_account_numbers_v3.20.pdf
 
+Requires Ruby > 2.0.0
+
+Usage
+-----
+
+```
+UkAccountValidator::Validator.new(account_number, sort_code).valid?
+```
+
+or
+
+```
+validator = UkAccountValidator::Validator.new
+validator.account_number = account_number
+validator.sort_code      = sort_code
+validator.valid?
+```
+
 Installation
 ------------
 
@@ -26,22 +44,6 @@ Or install it yourself as:
 
 ```
 $ gem install uk_account_validator
-```
-
-Usage
------
-
-```
-UkAccountValidator::Validator.new(account_number, sort_code).valid?
-```
-
-or
-
-```
-validator = UkAccountValidator::Validator.new
-validator.account_number = account_number
-validator.sort_code      = sort_code
-validator.valid?
 ```
 
 Contributing
