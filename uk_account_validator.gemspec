@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['hayden@haydenball.me.uk']
   spec.summary       = 'Validate UK Account Numbers and Sort Codes'
   spec.description   = spec.summary
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/ball-hayden/uk_account_validator'
   spec.license       = '2 Clause BSD'
 
   spec.files         = `git ls-files -z`.split("\x0")
