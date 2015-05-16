@@ -24,11 +24,8 @@ module UkAccountValidator
           weighted_test_digits.inject(:+)
         end
 
-        case @modulus_weight.exception
-        when '4'
-          return apply_exception_4(total, test_digits)
-        when '5'
-          return apply_exception_5(total, test_digits, :h)
+        if exception.override_test?
+          return exception.test(modulus, total, test_digits, :double_alternate)
         end
 
         total % modulus == 0

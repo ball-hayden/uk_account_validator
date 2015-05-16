@@ -7,7 +7,7 @@ module UkAccountValidator
       end
 
       def valid?
-        test_string = @sort_code + @account_number
+        test_string = sort_code + account_number
 
         test_digits = test_string.split(//).map(&:to_i)
 
@@ -15,15 +15,12 @@ module UkAccountValidator
           NUMBER_INDEX.each_pair.reduce(0) do |t, pair|
             weight, index = pair
 
-            t + @modulus_weight.send(weight) * test_digits[index]
+            t + modulus_weight.send(weight) * test_digits[index]
           end
         end
 
-        case @modulus_weight.exception
-        when '4'
-          return apply_exception_4(total, test_digits)
-        when '5'
-          return apply_exception_5(total, test_digits, :g)
+        if exception.override_test?
+          return exception.test(modulus, total, test_digits, :standard_modulus)
         end
 
         total % modulus == 0

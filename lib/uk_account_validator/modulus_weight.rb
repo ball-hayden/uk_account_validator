@@ -1,6 +1,6 @@
 module UkAccountValidator
   class ModulusWeight
-    attr_accessor :sort_code_start, :sort_code_end, :modulus, :u, :v, :w, :x,
+    attr_reader :sort_code_start, :sort_code_end, :modulus, :u, :v, :w, :x,
                 :y, :z, :a, :b, :c, :d, :e, :f, :g, :h, :exception
 
     # the size of each column
@@ -11,7 +11,7 @@ module UkAccountValidator
       # See https://www.ruby-forum.com/topic/184294#805359
       data = definition_line.unpack("A#{COLUMN_SIZES.join('A')}")
 
-      data.map! { |d| d.strip }
+      data.map!(&:strip)
 
       @sort_code_start, @sort_code_end, @modulus, @u, @v, @w, @x,
         @y, @z, @a, @b, @c, @d, @e, @f, @g, @h, @exception = data

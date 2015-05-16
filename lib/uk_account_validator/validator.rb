@@ -11,7 +11,7 @@ module UkAccountValidator
       @modulus_weights ||= UkAccountValidator.modulus_weights_table.find(sort_code)
     end
 
-    def validator(modulus)
+    def modulus_validator(modulus)
       case modulus
       when 'MOD10'
         Validators::Modulus10
@@ -26,35 +26,50 @@ module UkAccountValidator
 
     def valid?
       exceptions = modulus_weights.map(&:exception)
+      exception_class = self.exception_class(exceptions)
 
       results = modulus_weights.each_with_index.map do |modulus_weight, i|
-        if i == 1 && exceptions.include?('2') && exceptions.include?('9')
-          next Validator.new(account_number, '309634').valid?
-        end
+        exception = exception_class.new(modulus_weight, account_number, sort_code, i + 1)
 
-        validator(modulus_weight.modulus).new(account_number, sort_code, modulus_weight, exceptions).valid?
+        @account_number = exception.apply_account_number_substitutions
+
+        modulus_validator(modulus_weight.modulus).new(
+          account_number, sort_code, modulus_weight, exception
+        ).valid?
       end
 
-      return results.any? if exceptions.include?('2') && exceptions.include?('9')
-      return results.any? if exceptions.include?('10') && exceptions.include?('11')
-      return results.any? if exceptions.include?('12') && exceptions.include?('13')
-      return apply_exception_14 if !results.any? && exceptions.include?('14')
+      return results.any? if exception_class.allow_any?
 
       results.all?
     end
 
-    # If the 8th digit of the account number (reading from left to right) is
-    # not 0, 1 or 9 then the account number fails the second check and is not a
-    # valid Coutts account number.
-    # If the 8th digit is 0, 1 or 9, then remove the digit from the account
-    # number and insert a 0 as the 1st digit for check purposes only
-    def apply_exception_14
-      return false unless %w(0 1 9).include?(account_number[7])
-
-      account_number.slice!(7)
-      exception_account_number = '0' + account_number
-
-      return Validator.new(exception_account_number, sort_code).valid?
+    def exception_class(exception_strings)
+      case
+      when exception_strings.include?('1')
+        Exception1
+      when exception_strings.include?('2') && exception_strings.include?('9')
+        Exception29
+      when exception_strings.include?('3')
+        Exception3
+      when exception_strings.include?('4')
+        Exception4
+      when exception_strings.include?('5')
+        Exception5
+      when exception_strings.include?('6')
+        Exception6
+      when exception_strings.include?('7')
+        Exception7
+      when exception_strings.include?('8')
+        Exception8
+      when exception_strings.include?('10') && exception_strings.include?('11')
+        Exception10
+      when exception_strings.include?('12') && exception_strings.include?('13')
+        Exception12
+      when exception_strings.include?('14')
+        Exception14
+      else
+        BaseException
+      end
     end
   end
 end
