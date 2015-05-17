@@ -2,11 +2,11 @@ Given(/^I create a new checker$/) do
   @checker = UkAccountValidator::Validator.new
 end
 
-Given(/^I have a sort code (\d+)$/) do |sort_code|
+Given(/^I have a sort code (\S+)$/) do |sort_code|
   @checker.sort_code = sort_code
 end
 
-Given(/^I have an account number (\d+)$/) do |acc_number|
+Given(/^I have an account number (\S+)$/) do |acc_number|
   @checker.account_number = acc_number
 end
 

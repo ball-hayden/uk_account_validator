@@ -1,10 +1,16 @@
 module UkAccountValidator
   class Validator
-    attr_accessor :account_number, :sort_code
+
+    attr_writer   :sort_code
+    attr_accessor :account_number
 
     def initialize(account_number = nil, sort_code = nil)
       @account_number = account_number
       @sort_code      = sort_code
+    end
+
+    def sort_code
+      @sort_code.gsub('-', '')
     end
 
     def modulus_weights
