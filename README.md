@@ -7,6 +7,10 @@ This gem validates uk account numbers against their sort codes in accordance wit
 
 http://www.vocalink.com/media/700427/vocalink_-_validating_account_numbers_v3.20.pdf
 
+Note that this gem ensures the sort code and account number are valid, not that they exist.
+
+NB the resource text files valacdos.txt and scsubtab.txt are produced and released by VocaLink.
+
 Requires Ruby > 2.0.0
 
 Usage
