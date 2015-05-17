@@ -31,6 +31,8 @@ module UkAccountValidator
     end
 
     def valid?
+      return false unless valid_format?
+
       exceptions = modulus_weights.map(&:exception)
       exception_class = self.exception_class(exceptions)
 
@@ -47,6 +49,15 @@ module UkAccountValidator
       return results.any? if exception_class.allow_any?
 
       results.all?
+    end
+
+    def valid_format?
+      return false if account_number =~ /\D/
+      return false if account_number.length < 6
+      return false if account_number.length > 10
+      return false if sort_code.length != 6
+
+      return true
     end
 
     def exception_class(exception_strings)
