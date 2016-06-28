@@ -3,9 +3,7 @@ UkAccountValidator
 
 [![Build Status](https://travis-ci.org/ball-hayden/uk_account_validator.svg?branch=master)](https://travis-ci.org/ball-hayden/uk_account_validator)
 
-This gem validates uk account numbers against their sort codes in accordance with VocaLink's specification available at:
-
-http://www.vocalink.com/media/700427/vocalink_-_validating_account_numbers_v3.20.pdf
+This gem validates uk account numbers against their sort codes in accordance with VocaLink's modulus checking specification, which can be downloaded from [here](https://www.vocalink.com/customer-support/modulus-checking/).
 
 Note that this gem ensures the sort code and account number are valid, not that they exist.
 
