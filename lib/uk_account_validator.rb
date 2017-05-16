@@ -1,3 +1,5 @@
+require 'uk_account_validator/backports/array_bsearch_index'
+
 require 'uk_account_validator/number_indices.rb'
 require 'uk_account_validator/validator.rb'
 require 'uk_account_validator/modulus_weight.rb'
