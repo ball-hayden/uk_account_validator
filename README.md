@@ -3,7 +3,7 @@ UkAccountValidator
 
 [![Build Status](https://travis-ci.org/ball-hayden/uk_account_validator.svg?branch=master)](https://travis-ci.org/ball-hayden/uk_account_validator)
 
-This gem validates uk account numbers against their sort codes in accordance with VocaLink's modulus checking specification, which can be downloaded from [here](https://www.vocalink.com/customer-support/modulus-checking/).
+This gem validates uk account numbers against their sort codes in accordance with VocaLink's modulus checking specification, which can be downloaded from [here](https://www.vocalink.com/tools/modulus-checking/).
 
 Note that this gem ensures the sort code and account number are valid, not that they exist.
 
@@ -11,7 +11,7 @@ NB the resource text files valacdos.txt and scsubtab.txt are produced and releas
 
 Requires Ruby > 2.0.0
 
-Modulus weight table data can be found [here](https://www.vocalink.com/customer-support/modulus-checking/). (Last verified data was downloaded 2020-04-06).
+Modulus weight table data can be found [here](https://www.vocalink.com/tools/modulus-checking/). (Last verified data was downloaded 2020-04-06).
 
 Usage
 -----
