@@ -11,7 +11,7 @@ NB the resource text files valacdos.txt and scsubtab.txt are produced and releas
 
 Requires Ruby > 2.0.0
 
-Modulus weight table data can be found [here](https://www.vocalink.com/tools/modulus-checking/). (Last verified data was downloaded 2020-04-06).
+Modulus weight table data can be found [here](https://www.vocalink.com/tools/modulus-checking/). (Last verified data was downloaded 2023-05-30).
 
 Usage
 -----
