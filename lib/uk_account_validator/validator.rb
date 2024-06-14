@@ -1,16 +1,20 @@
 module UkAccountValidator
   class Validator
 
-    attr_writer   :sort_code
-    attr_accessor :account_number
+    attr_accessor :account_number,
+                  :sort_code
 
     def initialize(account_number = nil, sort_code = nil)
-      @account_number = account_number
-      @sort_code      = sort_code
+      @account_number = account_number.to_s.strip
+      @sort_code      = parse_sort_code(sort_code)
     end
 
-    def sort_code
-      @sort_code.gsub('-', '')
+    def sort_code=(sort_code)
+      @sort_code = parse_sort_code(sort_code)
+    end
+
+    def account_number=(account_number)
+      @account_number = account_number.to_s.strip
     end
 
     def modulus_weights
@@ -52,12 +56,7 @@ module UkAccountValidator
     end
 
     def valid_format?
-      return false if account_number =~ /\D/
-      return false if account_number.length < 6
-      return false if account_number.length > 10
-      return false if sort_code.length != 6
-
-      return true
+      !"#{@sort_code}-#{@account_number}".match(/^[0-9]{6}-[0-9]{6,10}$/).nil?
     end
 
     def exception_class(exception_strings)
@@ -87,6 +86,12 @@ module UkAccountValidator
       else
         BaseException
       end
+    end
+
+    def parse_sort_code(sort_code)
+      return sort_code.to_s if sort_code.to_s.strip.match(/^[0-9]{2}[- ]?[0-9]{2}[- ]?[0-9]{2}$/).nil?
+      
+      sort_code.gsub(/[- ]/, '') 
     end
   end
 end
