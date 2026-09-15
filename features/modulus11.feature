@@ -16,3 +16,17 @@ Feature: Modulus 11 Checking
 
     Then the modulus is MOD11
     And the combination is invalid
+
+  Scenario: Pass modulus 11 check for a sort code with a three digit weight value
+    Given I have a sort code 230120
+    And I have an account number 10000004
+
+    Then the modulus is MOD11
+    And the combination is valid
+
+  Scenario: Fail modulus 11 check for a sort code with a three digit weight value
+    Given I have a sort code 230120
+    And I have an account number 10000005
+
+    Then the modulus is MOD11
+    And the combination is invalid

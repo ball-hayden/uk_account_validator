@@ -5,3 +5,7 @@ end
 Then(/^the weight's (\S+) is (\S+)$/) do |arg, value|
   expect(@weight.send(arg).to_s).to eq value
 end
+
+Then(/^the weight's (\S+) has no value$/) do |arg|
+  expect(@weight.send(arg)).to eq ''
+end
